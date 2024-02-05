@@ -19,3 +19,7 @@
   height: 250px !important;
   object-fit: cover;
 }
+
+form {
+  width: 100%;
+}
