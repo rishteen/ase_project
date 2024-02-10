@@ -7,8 +7,8 @@ const db=new Sequelize("uploader", "root", "!@#ABCcba#@2023",{
 
 export default db;
 
-    // (
-    //     async() =>{
-    //     await db.sync();
-    //   }
-    // )();
+/*  (
+     async() =>{
+     await db.sync();
+   }
+ )(); */

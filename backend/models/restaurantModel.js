@@ -3,6 +3,7 @@ import db from "../config/database.js";
 
 const { DataTypes } = Sequelize;
 
+// Define Restaurant model
 const Restaurant = db.define("restaurant", {
     name: DataTypes.STRING,
     image: DataTypes.STRING,
@@ -26,9 +27,10 @@ const Restaurant = db.define("restaurant", {
     deliver: DataTypes.BOOLEAN,
     takeaway: DataTypes.BOOLEAN,
     serving: DataTypes.BOOLEAN,
-    category: DataTypes.STRING
+    // Remove category string definition
 }, {
     freezeTableName: true,
 });
+
 
 export default Restaurant;

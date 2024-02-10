@@ -1,4 +1,3 @@
-import React from "react";
 import { Restaurant } from "../hooks/useRestaurants";
 import { Card, CardBody, Heading, Image } from "@chakra-ui/react";
 interface Props {
