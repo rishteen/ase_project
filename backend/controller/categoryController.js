@@ -51,3 +51,18 @@ export const deleteCategory = async (req, res) => {
 };
 
 
+
+export const updateCategory = async(req, res)=> {
+     const { name, description } = req.body;
+
+     try {
+          await Category.update({name: name, description:description}, {
+               where: {
+                    id: req.params.id,
+               }
+          });
+          res.json({msg: "دسته بندی با موفقیت ویرایش شد"})
+     } catch (error) {
+          res.json(error)
+     }
+}

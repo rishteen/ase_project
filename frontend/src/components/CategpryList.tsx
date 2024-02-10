@@ -5,7 +5,6 @@ import {
   Tbody,
   Tfoot,
   Tr,
-  Th,
   Td,
   TableContainer,
   Button,
@@ -21,11 +20,18 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import apiClient from "../services/api-client";
 import AddCategory from "./AddCategory";
+import UpdateCategory from "./UpdateCategory";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const {
+    isOpen: isUpdateModalOpen,
+    onOpen: onOpenUpdateModal,
+    onClose: onCloseUpdateModal,
+  } = useDisclosure();
 
   useEffect(() => {
     getCategories();
@@ -46,6 +52,10 @@ const CategoryList = () => {
       });
       console.error("Error fetching categories:", error);
     }
+    const handleEditCategory = (category) => {
+      setCurrentCategory(category);
+      onOpenUpdateModal();
+    };
   };
 
   const deleteCategory = async () => {
@@ -83,6 +93,10 @@ const CategoryList = () => {
 
   // Confirmation dialog cancel ref
   const cancelRef = React.useRef();
+  const handleEditCategory = (category) => {
+    setCurrentCategory(category); // Set the current category for editing
+    onOpenUpdateModal(); // Open the modal for updating
+  };
 
   return (
     <>
@@ -91,10 +105,10 @@ const CategoryList = () => {
         <Table size="sm">
           <Thead>
             <Tr>
-              <Th>#</Th>
-              <Th>دسته بندی</Th>
-              <Th>تفصیلات</Th>
-              <Th>عملیات</Th>
+              <th>#</th>
+              <th>دسته بندی</th>
+              <th>تفصیلات</th>
+              <th>عملیات</th>
             </Tr>
           </Thead>
           <Tbody>
@@ -104,7 +118,13 @@ const CategoryList = () => {
                 <Td>{category.name}</Td>
                 <Td>{category.description}</Td>
                 <Td>
-                  <Link to={`/category/edit/${category.id}`}>ویرایش</Link>
+                  <Button
+                    colorScheme="blue"
+                    size="sm"
+                    onClick={() => handleEditCategory(category)}
+                  >
+                    ویرایش
+                  </Button>
                   {"  "}
                   <Button
                     colorScheme="red"
@@ -120,15 +140,22 @@ const CategoryList = () => {
 
           <Tfoot>
             <Tr>
-              <Th>#</Th>
-              <Th>دسته بندی</Th>
-              <Th>تفصیلات</Th>
-              <Th>عملیات</Th>
+              <th>#</th>
+              <th>دسته بندی</th>
+              <th>تفصیلات</th>
+              <th>عملیات</th>
             </Tr>
           </Tfoot>
         </Table>
       </TableContainer>
-
+      {currentCategory && (
+        <UpdateCategory
+          isOpen={isUpdateModalOpen}
+          onClose={onCloseUpdateModal}
+          category={currentCategory}
+          refreshCategories={getCategories}
+        />
+      )}
       {/* Confirmation Dialog */}
       <AlertDialog
         isOpen={isOpen}

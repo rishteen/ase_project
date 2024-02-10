@@ -1,6 +1,4 @@
-// AddCategory.js
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -13,23 +11,28 @@ import {
   FormControl,
   FormLabel,
   Input,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import apiClient from "../services/api-client";
-import { useNavigate } from "react-router-dom";
 
-const AddCategory = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const navigate = useNavigate();
+const UpdateCategory = ({ isOpen, onClose, category, refreshCategories }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAddCategory = async () => {
+  useEffect(() => {
+    if (category) {
+      setName(category.name);
+      setDescription(category.description);
+    }
+  }, [category]);
+
+  const handleUpdateCategory = async () => {
+    setIsSubmitting(true);
     try {
-      const response = await apiClient.post("/category", {
-        name: name,
-        description: description,
+      const response = await apiClient.put(`/category/${category.id}`, {
+        name,
+        description,
       });
       toast.success(response.data.msg, {
         position: "top-right",
@@ -39,15 +42,12 @@ const AddCategory = () => {
         draggable: true,
         theme: "light",
       });
-      navigate("/categories");
+      refreshCategories(); // Refresh the category list in the parent component
       onClose(); // Close the modal
-      setName(""); // Reset the name field
-      setDescription(""); // Reset the description field
-      // Optionally, refresh the category list if this component is part of a larger component that displays categories
     } catch (error) {
       console.error(error);
       toast.error(
-        error.response?.data?.msg || "خطا در اضافه کردن دسته بندی جدید",
+        error.response?.data?.msg || "خطا در به روز رسانی دسته بندی",
         {
           position: "top-right",
           autoClose: 5000,
@@ -57,24 +57,30 @@ const AddCategory = () => {
           theme: "light",
         }
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  useEffect(() => {
+    if (!isOpen) {
+      setName("");
+      setDescription("");
+    }
+  }, [isOpen]);
+
   return (
     <>
-      <Button onClick={onOpen} colorScheme="teal">
-        اضافه کردن دسته بندی جدید
-      </Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>دسته بندی جدید</ModalHeader>
+          <ModalHeader>به روز رسانی دسته بندی</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>دسته بندی</FormLabel>
+              <FormLabel htmlFor="categoryName">دسته بندی</FormLabel>
               <Input
+                id="categoryName"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="اسم دسته بندی"
@@ -82,8 +88,9 @@ const AddCategory = () => {
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>تفصیلات</FormLabel>
+              <FormLabel htmlFor="categoryDescription">تفصیلات</FormLabel>
               <Input
+                id="categoryDescription"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="تفصیلات"
@@ -92,7 +99,12 @@ const AddCategory = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleAddCategory}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleUpdateCategory}
+              isLoading={isSubmitting}
+            >
               ثبت
             </Button>
             <Button onClick={onClose}>لغو</Button>
@@ -103,4 +115,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default UpdateCategory;
