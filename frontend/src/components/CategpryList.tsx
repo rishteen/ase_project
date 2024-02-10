@@ -100,7 +100,7 @@ const CategoryList = () => {
 
   return (
     <>
-      <AddCategory />
+      <AddCategory refreshCategories={getCategories} />
       <TableContainer padding={20}>
         <Table size="sm">
           <Thead>
