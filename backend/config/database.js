@@ -1,9 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const db=new Sequelize("uploader", "root", "!@#ABCcba#@2023",{
-    host:"localhost",
-    dialect:"mysql"
-});
+const db = new Sequelize('mysql://root:9IbGbVxzkSdBLl5zyR43C0Q3@siah-kaman.liara.cloud:34846/uploader');
 
 export default db;
 
