@@ -3,9 +3,13 @@ import useRestaurants from "../hooks/useRestaurants";
 import RestaurantCard from "./RestaurantCard";
 import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
 import RestaurantCardContainer from "./RestaurantCardContainer";
+import { Category } from "../hooks/useCategory";
 
-const RestaurantGrid = () => {
-  const { data, error, isLoading } = useRestaurants();
+interface Props {
+  selectedCategory: Category | null;
+}
+const RestaurantGrid = ({selectedCategory}:Props) => {
+  const { data, error, isLoading } = useRestaurants(selectedCategory);
   const skeleton = [1, 2, 3, 4, 5, 6];
 
   return (
@@ -18,13 +22,13 @@ const RestaurantGrid = () => {
       >
         {isLoading &&
           skeleton.map((skeleton) => (
-            <RestaurantCardContainer>
-              <RestaurantCardSkeleton key={skeleton} />
+            <RestaurantCardContainer key={skeleton}>
+              <RestaurantCardSkeleton />
             </RestaurantCardContainer>
           ))}
         {data.map((restaurant) => (
-          <RestaurantCardContainer>
-            <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+          <RestaurantCardContainer key={restaurant.id}>
+            <RestaurantCard restaurant={restaurant} />
           </RestaurantCardContainer>
         ))}
       </SimpleGrid>

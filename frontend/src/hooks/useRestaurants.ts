@@ -1,3 +1,5 @@
+// Assuming useCategory and useData are correctly implemented
+import { Category } from "./useCategory";
 import useData from "./useData";
 
 export interface Restaurant {
@@ -11,10 +13,12 @@ export interface Restaurant {
   whatsapp: string;
   email: string;
   web: string;
+  category_id: number;
 }
 
-
-
-const useRestaurants = () => useData<Restaurant>('/restaurants');
+const useRestaurants = (selectedCategory: Category | null) => {
+  const endpoint = selectedCategory ? `/restaurants/category/${selectedCategory.id}` : '/restaurants';
+  return useData<Restaurant>(endpoint, {}, [selectedCategory?.id]);
+};
 
 export default useRestaurants;

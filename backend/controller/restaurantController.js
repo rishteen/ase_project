@@ -24,6 +24,19 @@ export const getRestaurant = async(req,res)=> {
      }
 }
 
+export const getRestaurantByCategory = async(req,res)=> {
+     try {
+          const response = await Restaurant.findAll({
+               where: {
+                    category_id: req.params.id
+               }
+          });
+          res.json(response)
+     } catch (error) {
+          res.json(error)
+     }
+}
+
 
 
 export const saveRestaurant = (req, res) => {
