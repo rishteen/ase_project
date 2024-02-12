@@ -5,18 +5,13 @@ interface Props {
 }
 
 const Views = ({ views }: Props) => {
-  let colorScheme = "green";
-  if (views < 100) {
-    colorScheme = "gray";
-  } else if (views < 1000) {
-    colorScheme = "blue";
-  } else if (views < 10000) {
-    colorScheme = "orange";
-  } else {
-    colorScheme = "red";
-  }
-
-  return <Badge colorScheme={colorScheme}>{views}</Badge>;
+  let colorScheme =
+    views < 50 ? "red" : views < 100 ? "yellow" : views < 1000 ? "green" : "";
+  return (
+    <Badge fontSize={16} padding={1} colorScheme={colorScheme} borderRadius={4}>
+      {views}
+    </Badge>
+  );
 };
 
 export default Views;

@@ -1,9 +1,11 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import useRestaurants from "../hooks/useRestaurants";
 import RestaurantCard from "./RestaurantCard";
+import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
 
 const RestaurantGrid = () => {
-  const { restaurants, error } = useRestaurants();
+  const { restaurants, error, isLoading } = useRestaurants();
+  const skeleton = [1, 2, 3, 4, 5, 6];
 
   return (
     <>
@@ -13,6 +15,8 @@ const RestaurantGrid = () => {
         spacing={10}
         padding="10px"
       >
+        {isLoading &&
+          skeleton.map((skeleton) => <RestaurantCardSkeleton key={skeleton} />)}
         {restaurants.map((restaurant) => (
           <RestaurantCard key={restaurant.id} restaurant={restaurant} />
         ))}

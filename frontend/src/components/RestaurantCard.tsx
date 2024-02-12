@@ -1,14 +1,5 @@
-import React from "react";
 import { Restaurant } from "../hooks/useRestaurants";
-import {
-  Card,
-  CardBody,
-  Heading,
-  Image,
-  HStack,
-  Link,
-  Center,
-} from "@chakra-ui/react";
+import { Card, CardBody, Heading, Image, HStack, Link } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { MdEmail, MdWeb, MdPhone } from "react-icons/md";
 import Views from "./Views";
@@ -33,43 +24,45 @@ const RestaurantCard = ({ restaurant }: Props) => {
   const webUrl = restaurant.web ? restaurant.web : ""; // Assuming web is already a complete URL
 
   return (
-    <Card borderRadius={10} overflow="hidden">
+    <Card borderRadius={10} overflow="hidden" width="300px">
       <Image src={restaurant.url} alt={restaurant.name} />
       <CardBody>
         <Heading size="md" marginBottom={4}>
-          {restaurant.name}&nbsp;&nbsp;
-          <Views views={restaurant.id} />
+          <HStack justifyContent="space-between">
+            <h1>{restaurant.name}</h1>
+            <Views views={restaurant.id} />
+          </HStack>
         </Heading>
 
-        <HStack spacing={10} wrap="wrap" justify="center">
+        <HStack spacing={10} wrap="wrap" justify="space-between">
           {restaurant.phone && (
             <Link href={phoneUrl} isExternal aria-label="Phone">
-              <MdPhone />
+              <MdPhone size={20} />
             </Link>
           )}
           {restaurant.facebook && (
             <Link href={facebookUrl} isExternal aria-label="Facebook">
-              <FaFacebookF />
+              <FaFacebookF size={20} />
             </Link>
           )}
           {restaurant.instagram && (
             <Link href={instagramUrl} isExternal aria-label="Instagram">
-              <FaInstagram />
+              <FaInstagram size={20} />
             </Link>
           )}
           {restaurant.whatsapp && (
             <Link href={whatsappUrl} isExternal aria-label="WhatsApp">
-              <FaWhatsapp />
+              <FaWhatsapp size={20} />
             </Link>
           )}
           {restaurant.email && (
             <Link href={emailUrl} isExternal aria-label="Email">
-              <MdEmail />
+              <MdEmail size={20} />
             </Link>
           )}
           {restaurant.web && (
             <Link href={webUrl} isExternal aria-label="Website">
-              <MdWeb />
+              <MdWeb size={20} />
             </Link>
           )}
         </HStack>
