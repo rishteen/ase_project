@@ -5,7 +5,7 @@ import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
 import RestaurantCardContainer from "./RestaurantCardContainer";
 
 const RestaurantGrid = () => {
-  const { restaurants, error, isLoading } = useRestaurants();
+  const { data, error, isLoading } = useRestaurants();
   const skeleton = [1, 2, 3, 4, 5, 6];
 
   return (
@@ -22,7 +22,7 @@ const RestaurantGrid = () => {
               <RestaurantCardSkeleton key={skeleton} />
             </RestaurantCardContainer>
           ))}
-        {restaurants.map((restaurant) => (
+        {data.map((restaurant) => (
           <RestaurantCardContainer>
             <RestaurantCard key={restaurant.id} restaurant={restaurant} />
           </RestaurantCardContainer>

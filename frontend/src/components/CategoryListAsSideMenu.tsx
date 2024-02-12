@@ -1,11 +1,10 @@
-import React from "react";
 import useCategory from "../hooks/useCategory";
 
 const CategoryListAsSideMenu = () => {
-  const { categories } = useCategory();
+  const { data } = useCategory();
   return (
     <ul>
-      {categories.map((category) => (
+      {data.map((category) => (
         <li key={category.id}>{category.name}</li>
       ))}
     </ul>
