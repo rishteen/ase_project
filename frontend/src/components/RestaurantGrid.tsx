@@ -2,6 +2,7 @@ import { SimpleGrid, Text } from "@chakra-ui/react";
 import useRestaurants from "../hooks/useRestaurants";
 import RestaurantCard from "./RestaurantCard";
 import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
+import RestaurantCardContainer from "./RestaurantCardContainer";
 
 const RestaurantGrid = () => {
   const { restaurants, error, isLoading } = useRestaurants();
@@ -16,9 +17,15 @@ const RestaurantGrid = () => {
         padding="10px"
       >
         {isLoading &&
-          skeleton.map((skeleton) => <RestaurantCardSkeleton key={skeleton} />)}
+          skeleton.map((skeleton) => (
+            <RestaurantCardContainer>
+              <RestaurantCardSkeleton key={skeleton} />
+            </RestaurantCardContainer>
+          ))}
         {restaurants.map((restaurant) => (
-          <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+          <RestaurantCardContainer>
+            <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+          </RestaurantCardContainer>
         ))}
       </SimpleGrid>
     </>

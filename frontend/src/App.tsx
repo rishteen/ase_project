@@ -7,6 +7,7 @@ import AddRestaurant from "./components/AddRestaurant";
 import CategpryList from "./components/CategpryList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CategoryListAsSideMenu from "./components/CategoryListAsSideMenu";
 function App() {
   return (
     <BrowserRouter>
@@ -20,7 +21,9 @@ function App() {
           <NavBar />
         </GridItem>
         <Show above="lg">
-          <GridItem area="aside">Aside Content</GridItem>
+          <GridItem area="aside">
+            <CategoryListAsSideMenu />
+          </GridItem>
         </Show>
         <GridItem area="main">
           <Routes>

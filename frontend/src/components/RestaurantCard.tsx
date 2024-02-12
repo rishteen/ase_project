@@ -24,7 +24,7 @@ const RestaurantCard = ({ restaurant }: Props) => {
   const webUrl = restaurant.web ? restaurant.web : ""; // Assuming web is already a complete URL
 
   return (
-    <Card borderRadius={10} overflow="hidden" width="300px">
+    <Card overflow="hidden">
       <Image src={restaurant.url} alt={restaurant.name} />
       <CardBody>
         <Heading size="md" marginBottom={4}>
