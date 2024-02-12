@@ -8,7 +8,7 @@ const RestaurantCard = ({ restaurant }: Props) => {
     <Card borderRadius={10} overflow="hidden">
       <Image src={restaurant.url} />
       <CardBody>
-        <Heading fontSize="2xl">{restaurant.name}</Heading>
+        <h1>{restaurant.name}</h1>
       </CardBody>
     </Card>
   );

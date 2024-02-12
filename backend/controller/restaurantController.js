@@ -30,7 +30,14 @@ export const saveRestaurant = (req, res) => {
      if(req.files == null) return res.json({msg: "عکسی انتخاب نکردید"})
      const name = req.body.title;
      const file = req.files.file;
-     const { latitude, longitude } = req.body;
+     const { 
+          latitude, longitude,deliver, 
+          takeaway, serving, phone,
+          facebook, instagram, whatsapp,
+          email, web, city, district,
+          street, avenue, postal_code,
+          opening_time, closing_time,
+          working_days } = req.body;
      const fileSize = file.data.length;
      const ext = path.extname(file.name)
      let dateNow = Math.round(Date.now());
@@ -47,7 +54,17 @@ export const saveRestaurant = (req, res) => {
           if(err) return res.json({msg: err.message})
 
           try {
-               await Restaurant.create({name: name, image: fileName, url:url, latitude: latitude, longitude: longitude});
+               await Restaurant.create({
+                    name: name, image: fileName, url:url, 
+                    latitude: latitude, longitude: longitude, 
+                    takeaway:takeaway, deliver:deliver,
+                    serving:serving, phone:phone,
+                    facebook:facebook, instagram:instagram,
+                    whatsapp:whatsapp, email:email, 
+                    web:web, city:city, district:district, 
+                    street:street, avenue:avenue, 
+                    postal_code:postal_code, opening_time:opening_time,
+                    closing_time:closing_time, working_days:working_days});
                res.json({msg: "رستوران با موفقیت افزوده شد."})
           } catch (error) {
                console.log(error.message)
