@@ -1,6 +1,10 @@
 import { Sequelize } from "sequelize";
+import { config as dotenvConfig } from 'dotenv';
 
-const db = new Sequelize('mysql://root:9IbGbVxzkSdBLl5zyR43C0Q3@siah-kaman.liara.cloud:34846/uploader');
+dotenvConfig();
+
+
+const db = new Sequelize(process.env.DB_CONNECTION);
 
 export default db;
 
