@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/category:
+ * /category:
  *   post:
  *     summary: Create a new category
  *     description: Create a new category with the provided data.
@@ -28,7 +28,7 @@ router.post("/category", addCategory);
 
 /**
  * @swagger
- * /api/categories:
+ * /categories:
  *   get:
  *     summary: Get all categories
  *     description: Retrieve a list of all categories.
@@ -40,7 +40,7 @@ router.get("/categories", getCategories);
 
 /**
  * @swagger
- * /api/category/{id}:
+ * /category/{id}:
  *   delete:
  *     summary: Delete a category by ID
  *     description: Delete an existing category by its ID.
@@ -61,7 +61,7 @@ router.delete("/category/:id", deleteCategory);
 
 /**
  * @swagger
- * /api/category/{id}:
+ * /category/{id}:
  *   put:
  *     summary: Update a category by ID
  *     description: Update an existing category with the provided data.

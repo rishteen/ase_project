@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/allfood:
+ * /allfood:
  *   get:
  *     summary: Get all food items
  *     description: Retrieve a list of all food items.
@@ -17,7 +17,7 @@ router.get("/allfood", getAllFood);
 
 /**
  * @swagger
- * /api/food/{id}:
+ * /food/{id}:
  *   get:
  *     summary: Get a food item by ID
  *     description: Retrieve a single food item by its ID.
@@ -38,7 +38,7 @@ router.get("/food/:id", getFoodById);
 
 /**
  * @swagger
- * /api/food:
+ * /food:
  *   post:
  *     summary: Create a new food item
  *     description: Create a new food item with the provided data.
@@ -67,7 +67,7 @@ router.post("/food", createFood);
 
 /**
  * @swagger
- * /api/food/{id}:
+ * /food/{id}:
  *   put:
  *     summary: Update a food item by ID
  *     description: Update an existing food item with the provided data.
@@ -105,7 +105,7 @@ router.put("/food/:id", updateFood);
 
 /**
  * @swagger
- * /api/food/{id}:
+ * /food/{id}:
  *   delete:
  *     summary: Delete a food item by ID
  *     description: Delete an existing food item by its ID.

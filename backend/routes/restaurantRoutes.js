@@ -1,54 +1,52 @@
 import express from "express";
-import {
-  deleteRestaurant,
-  getRestaurants,
-  getRestaurant,
-  saveRestaurant,
-  updateRestaurant,
-} from "../controller/restaurantController.js";
+import { deleteRestaurant, getRestaurants, getRestaurant, saveRestaurant, updateRestaurant } from "../controller/restaurantController.js";
 import { addCategory } from "../controller/categoryController.js";
 
 const router = express.Router();
 
+
 /**
  * @swagger
- * /api/allfoodRestaurant:
+ * /restaurants:
  *   get:
- *     summary: Get all restaurant food items
- *     description: Retrieve a list of all food items associated with restaurants.
+ *     summary: Get all restaurants
+ *     description: Retrieve a list of all restaurants.
  *     responses:
  *       '200':
- *         description: A list of restaurant food items.
+ *         description: A list of restaurants.
  */
 router.get("/restaurants", getRestaurants);
 
+
+
 /**
  * @swagger
- * /api/foodRestaurant/{id}:
+ * /restaurant/{id}:
  *   get:
- *     summary: Get a restaurant food item by ID
- *     description: Retrieve a single restaurant food item by its ID.
+ *     summary: Get a restaurant by ID
+ *     description: Retrieve a single restaurant by its ID.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the restaurant food item to retrieve
+ *         description: ID of the restaurant to retrieve
  *         schema:
  *           type: integer
  *     responses:
  *       '200':
- *         description: A single restaurant food item.
+ *         description: A single restaurant.
  *       '404':
- *         description: Restaurant food item not found.
+ *         description: Restaurant not found.
  */
 router.get("/restaurant/:id", getRestaurant);
 
+
 /**
  * @swagger
- * /api/foodRestaurant:
+ * /restaurant:
  *   post:
- *     summary: Create a new restaurant food item
- *     description: Create a new restaurant food item with the provided data.
+ *     summary: Create a new restaurant
+ *     description: Create a new restaurant with the provided data.
  *     requestBody:
  *       required: true
  *       content:
@@ -56,30 +54,41 @@ router.get("/restaurant/:id", getRestaurant);
  *           schema:
  *             type: object
  *             properties:
- *               restaurant_id:
- *                 type: integer
- *               food_id:
- *                 type: integer
+ *               name:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *               url:
+ *                 type: string
+ *               latitude:
+ *                 type: number
+ *               longitude:
+ *                 type: number
  *           example:
- *             restaurant_id: 1
- *             food_id: 1
+ *             name: "Restaurant Name"
+ *             image: "restaurant.jpg"
+ *             url: "https://restaurant.com"
+ *             latitude: 123.456
+ *             longitude: 456.789
  *     responses:
  *       '201':
- *         description: The newly created restaurant food item.
+ *         description: The newly created restaurant.
  */
 router.post("/restaurant", saveRestaurant);
 
+
+
 /**
  * @swagger
- * /api/foodRestaurant/{id}:
+ * /restaurant/{id}:
  *   put:
- *     summary: Update a restaurant food item by ID
- *     description: Update an existing restaurant food item with the provided data.
+ *     summary: Update a restaurant by ID
+ *     description: Update an existing restaurant with the provided data.
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the restaurant food item to update
+ *         description: ID of the restaurant to update
  *         schema:
  *           type: integer
  *     requestBody:
@@ -89,24 +98,35 @@ router.post("/restaurant", saveRestaurant);
  *           schema:
  *             type: object
  *             properties:
- *               restaurant_id:
- *                 type: integer
- *               food_id:
- *                 type: integer
+ *               name:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *               url:
+ *                 type: string
+ *               latitude:
+ *                 type: number
+ *               longitude:
+ *                 type: number
  *           example:
- *             restaurant_id: 2
- *             food_id: 3
+ *             name: "Updated Restaurant Name"
+ *             image: "updated-restaurant.jpg"
+ *             url: "https://updated-restaurant.com"
+ *             latitude: 123.456
+ *             longitude: 456.789
  *     responses:
  *       '200':
- *         description: The updated restaurant food item.
+ *         description: The updated restaurant.
  *       '404':
- *         description: Restaurant food item not found.
+ *         description: Restaurant not found.
  */
 router.put("/restaurant/:id", updateRestaurant);
 
+
+
 /**
  * @swagger
- * /api/restaurant/{id}:
+ * /restaurant/{id}:
  *   delete:
  *     summary: Delete a restaurant by ID
  *     description: Delete an existing restaurant by its ID.
@@ -124,5 +144,6 @@ router.put("/restaurant/:id", updateRestaurant);
  *         description: Restaurant not found.
  */
 router.delete("/restaurant/:id", deleteRestaurant);
+
 
 export default router;
