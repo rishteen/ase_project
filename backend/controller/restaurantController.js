@@ -37,7 +37,7 @@ export const saveRestaurant = (req, res) => {
           email, web, city, district,
           street, avenue, postal_code,
           opening_time, closing_time,
-          working_days } = req.body;
+          working_days,category_id } = req.body;
      const fileSize = file.data.length;
      const ext = path.extname(file.name)
      let dateNow = Math.round(Date.now());
@@ -55,7 +55,7 @@ export const saveRestaurant = (req, res) => {
 
           try {
                await Restaurant.create({
-                    name: name, image: fileName, url:url, 
+                    name: name, category_id:category_id,image: fileName, url:url, 
                     latitude: latitude, longitude: longitude, 
                     takeaway:takeaway, deliver:deliver,
                     serving:serving, phone:phone,

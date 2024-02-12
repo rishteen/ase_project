@@ -1,13 +1,21 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
+// models/category.js
+import { Sequelize, DataTypes } from 'sequelize';
+import db from '../config/database.js';
 
-const { DataTypes } = Sequelize;
-
-// Define Category model
-const Category = db.define("category", {
-    name: DataTypes.STRING,
+const Category = db.define('category', {
+    // Assuming id as the primary key
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     description: DataTypes.STRING
 }, {
-    freezeTableName: true,
+    freezeTableName: true
 });
+
 export default Category;

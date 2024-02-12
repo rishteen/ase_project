@@ -6,6 +6,12 @@ export interface Restaurant {
   name: string;
   image: string;
   url: string;
+  phone: string;
+  facebook: string;
+  instagram: string;
+  whatsapp: string;
+  email: string;
+  web: string;
 }
 
 interface FetchRestaurantsResponse {

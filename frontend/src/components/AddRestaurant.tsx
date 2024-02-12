@@ -18,6 +18,7 @@ import {
   GridItem,
   InputGroup,
   InputLeftElement,
+  Select,
 } from "@chakra-ui/react";
 import {
   MapContainer,
@@ -52,6 +53,9 @@ const AddRestaurant = () => {
   const [opening_time, setOpeningTime] = useState("");
   const [closing_time, setClosingTime] = useState("");
   const [working_days, setWorkingDays] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+
   const allDays = [
     "شنبه",
     "یکشنبه",
@@ -92,6 +96,26 @@ const AddRestaurant = () => {
     ) : null;
   };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await apiClient.get("/categories"); // Adjust the endpoint as needed
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+        toast.error("Failed to load categories.", {
+          position: "top-right",
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const loadImage = (e) => {
     const image = e.target.files[0];
     setFile(image);
@@ -130,6 +154,7 @@ const AddRestaurant = () => {
     formData.append("opening_time", opening_time);
     formData.append("closing_time", closing_time);
     formData.append("working_days", working_days.join(","));
+    formData.append("category_id", selectedCategory);
 
     try {
       const res = await apiClient.post("/restaurant", formData, {
@@ -180,6 +205,22 @@ const AddRestaurant = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel htmlFor="category">دسته بندی</FormLabel>
+                <Select
+                  id="category"
+                  placeholder="انتخاب دسته بندی"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Select>
               </FormControl>
 
               <FormControl isRequired>
