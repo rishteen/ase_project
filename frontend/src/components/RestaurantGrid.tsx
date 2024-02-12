@@ -12,8 +12,8 @@ const RestaurantGrid = () => {
     <>
       {error && <Text>{error}</Text>}
       <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
-        spacing={10}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+        spacing={1}
         padding="10px"
       >
         {isLoading &&
