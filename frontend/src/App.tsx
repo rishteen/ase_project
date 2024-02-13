@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import RestaurantGrid from "./components/RestaurantGrid";
 import AddRestaurant from "./components/AddRestaurant";
@@ -9,9 +9,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CategoryListAsSideMenu from "./components/CategoryListAsSideMenu";
 import { Category } from "./hooks/useCategory";
+import SortSelector from "./components/SortOrderSelector";
+
+export interface RestaurantQuery {
+  category: Category | null;
+}
 function App() {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null
+  const [restaurantQuery, setRestaurantQuery] = useState<RestaurantQuery>(
+    {} as RestaurantQuery
   );
   return (
     <BrowserRouter>
@@ -31,16 +36,19 @@ function App() {
         <Show above="lg">
           <GridItem area="aside" paddingX={3} paddingY={6}>
             <CategoryListAsSideMenu
-              selectedCategory={selectedCategory}
-              onSelectCategory={(category) => setSelectedCategory(category)}
+              selectedCategory={restaurantQuery.category}
+              onSelectCategory={(category) =>
+                setRestaurantQuery({ ...restaurantQuery, category })
+              }
             />
           </GridItem>
         </Show>
         <GridItem area="main">
+          <HStack paddingRight={8} marginTop={1}></HStack>
           <Routes>
             <Route
               path="/"
-              element={<RestaurantGrid selectedCategory={selectedCategory} />}
+              element={<RestaurantGrid restaurantQuery={restaurantQuery} />}
             />
             <Route path="/addrestaurant" element={<AddRestaurant />} />
             <Route path="/categories" element={<CategpryList />} />

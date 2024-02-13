@@ -3,13 +3,13 @@ import useRestaurants from "../hooks/useRestaurants";
 import RestaurantCard from "./RestaurantCard";
 import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
 import RestaurantCardContainer from "./RestaurantCardContainer";
-import { Category } from "../hooks/useCategory";
+import { RestaurantQuery } from "../App";
 
 interface Props {
-  selectedCategory: Category | null;
+  restaurantQuery: RestaurantQuery;
 }
-const RestaurantGrid = ({selectedCategory}:Props) => {
-  const { data, error, isLoading } = useRestaurants(selectedCategory);
+const RestaurantGrid = ({ restaurantQuery }: Props) => {
+  const { data, error, isLoading } = useRestaurants(restaurantQuery);
   const skeleton = [1, 2, 3, 4, 5, 6];
 
   return (

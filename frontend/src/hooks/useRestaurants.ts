@@ -1,4 +1,5 @@
 // Assuming useCategory and useData are correctly implemented
+import { RestaurantQuery } from "../App";
 import { Category } from "./useCategory";
 import useData from "./useData";
 
@@ -16,9 +17,9 @@ export interface Restaurant {
   category_id: number;
 }
 
-const useRestaurants = (selectedCategory: Category | null) => {
-  const endpoint = selectedCategory ? `/restaurants/category/${selectedCategory.id}` : '/restaurants';
-  return useData<Restaurant>(endpoint, {}, [selectedCategory?.id]);
+const useRestaurants = (restaurantQuery:RestaurantQuery) => {
+  const endpoint = restaurantQuery.category ? `/restaurants/category/${restaurantQuery.category.id}` : '/restaurants';
+  return useData<Restaurant>(endpoint, {}, [restaurantQuery.category?.id]);
 };
 
 export default useRestaurants;
