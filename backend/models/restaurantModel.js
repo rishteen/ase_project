@@ -36,8 +36,12 @@ const Restaurant = db.define("restaurant", {
     deliver: DataTypes.BOOLEAN,
     takeaway: DataTypes.BOOLEAN,
     serving: DataTypes.BOOLEAN,
-    views: {
+    views_rate: {
         type: Sequelize.INTEGER,
+        defaultValue: 0, // Start with zero views
+    },
+    is_verified: {
+        type: Sequelize.BOOLEAN,
         defaultValue: 0, // Start with zero views
     },
     // Remove category string definition
