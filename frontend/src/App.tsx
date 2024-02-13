@@ -31,6 +31,7 @@ function App() {
         <Show above="lg">
           <GridItem area="aside" paddingX={3} paddingY={6}>
             <CategoryListAsSideMenu
+              selectedCategory={selectedCategory}
               onSelectCategory={(category) => setSelectedCategory(category)}
             />
           </GridItem>

@@ -3,8 +3,12 @@ import useCategory, { Category } from "../hooks/useCategory";
 
 interface Props {
   onSelectCategory: (category: Category) => void;
+  selectedCategory: Category | null;
 }
-const CategoryListAsSideMenu = ({ onSelectCategory }: Props) => {
+const CategoryListAsSideMenu = ({
+  selectedCategory,
+  onSelectCategory,
+}: Props) => {
   const { data, isLoading, error } = useCategory();
 
   if (isLoading) return <Spinner />;
@@ -16,6 +20,10 @@ const CategoryListAsSideMenu = ({ onSelectCategory }: Props) => {
         <ListItem key={category.id} paddingY="2">
           {/* Use a Flex container to center the button if needed */}
           <Button
+            fontWeight={
+              category.id === selectedCategory?.id ? "bold" : "normal"
+            }
+            color={category.id === selectedCategory?.id ? "teal" : ""}
             fontSize="lg"
             width="full" // Set button width to full to ensure it occupies the full width of its container
             justifyContent="center" // This centers the button's content
