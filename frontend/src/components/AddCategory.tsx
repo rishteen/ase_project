@@ -1,5 +1,4 @@
 // AddCategory.js
-
 import { useState } from "react";
 import {
   Button,
@@ -17,21 +16,16 @@ import {
 } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import apiClient from "../services/api-client";
-import { useNavigate } from "react-router-dom";
 
-const AddCategory = () => {
+const AddCategory = ({ refreshCategories }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddCategory = async () => {
-    try {
-      const response = await apiClient.post("/category", {
-        name: name,
-        description: description,
-      });
-      toast.success(response.data.msg, {
+    if (!name.trim() || !description.trim()) {
+      toast.error("لطفاً همه فیلدها را پر کنید", {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
@@ -39,11 +33,25 @@ const AddCategory = () => {
         draggable: true,
         theme: "light",
       });
-      navigate("/categories");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await apiClient.post("/category", {
+        name,
+        description,
+      });
+      toast.success(res.data.msg, {
+        position: "top-right",
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+      refreshCategories(); // Call the passed function to refresh categories list
       onClose(); // Close the modal
-      setName(""); // Reset the name field
-      setDescription(""); // Reset the description field
-      // Optionally, refresh the category list if this component is part of a larger component that displays categories
     } catch (error) {
       console.error(error);
       toast.error(
@@ -57,6 +65,10 @@ const AddCategory = () => {
           theme: "light",
         }
       );
+    } finally {
+      setIsLoading(false);
+      setName(""); // Reset the name field
+      setDescription(""); // Reset the description field
     }
   };
 
@@ -92,7 +104,12 @@ const AddCategory = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleAddCategory}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleAddCategory}
+              isLoading={isLoading}
+            >
               ثبت
             </Button>
             <Button onClick={onClose}>لغو</Button>

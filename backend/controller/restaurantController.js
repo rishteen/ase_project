@@ -16,63 +16,79 @@ export const getRestaurants = async (req, res) => {
   }
 };
 
-export const getRestaurant = async (req, res) => {
+export const getRestaurant = async(req,res)=> {
+     try {
+          const response = await Restaurant.findOne({
+               where: {
+                    id: req.params.id
+               }
+          });
+          res.json(response)
+     } catch (error) {
+          res.json(error)
+     }
+}
+export const getRestaurantByCategory = async(req,res)=> {
   try {
-    const response = await Restaurant.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.json(response);
+       const response = await Restaurant.findAll({
+            where: {
+                 category_id: req.params.id
+            }
+       });
+       res.json(response)
   } catch (error) {
-    res.json(error);
-  }
-};
+       res.json(error)}
 
-export const saveRestaurant = async (req, res) => {
-  if (req.files == null) return res.json({ msg: "عکسی انتخاب نکردید" });
+
+
+export const saveRestaurant = (req, res) => {
+  if(req.files == null) return res.json({msg: "عکسی انتخاب نکردید"})
   const name = req.body.title;
   const file = req.files.file;
-  const { latitude, longitude } = req.body;
+  const { 
+       latitude, longitude,deliver, 
+       takeaway, serving, phone,
+       facebook, instagram, whatsapp,
+       email, web, city, district,
+       street, avenue, postal_code,
+       opening_time, closing_time,
+       working_days,category_id } = req.body;
   const fileSize = file.data.length;
-  const ext = path.extname(file.name);
+  const ext = path.extname(file.name)
   let dateNow = Math.round(Date.now());
   const fileName = dateNow + ext;
-  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-  const allowedType = [".png", ".jpg", ".jpeg"];
+  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`
+  const allowedType = ['.png','.jpg','.jpeg'];
 
-  if (!allowedType.includes(ext.toLowerCase())) {
-    return res.json({ msg: "png jpg jpeg عکس معتبر نیست * فرمت های مجاز " });
-  }
-  if (fileSize > 5000000)
-    return res.json({ msg: "حجم عکس نباید بیشتر از 5 مگابایت باشد." });
-  file.mv(`./public/images/${fileName}`, async (err) => {
-    if (err) return res.json({ msg: err.message });
+     if(!allowedType.includes(ext.toLowerCase())){
+          return res.json({msg: "png jpg jpeg عکس معتبر نیست * فرمت های مجاز "});
+     }
+     if(fileSize > 5000000) return res.json({msg: "حجم عکس نباید بیشتر از 5 مگابایت باشد."})
 
-    try {
-      await Restaurant.create({
-        name: name,
-        image: fileName,
-        url: url,
-        latitude: latitude,
-        longitude: longitude,
-      });
-      res.json({ msg: "رستوران با موفقیت افزوده شد." });
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
-  //   const city = req.body.city;
-  //   await Restaurant.create({
-  //     name: name,
-  //     image: fileName,
-  //     url: url,
-  //     latitude: latitude,
-  //     longitude: longitude,
-  //     city: city,
-  //   });
-  //   res.json({ msg: "رستوران با موفقیت افزوده شد." });
-};
+     file.mv(`./public/images/${fileName}`, async(err)=> {
+          if(err) return res.json({msg: err.message})
+
+          try {
+            await Restaurant.create({
+              name: name, category_id:category_id,image: fileName, url:url, 
+              latitude: latitude, longitude: longitude, 
+              takeaway:takeaway, deliver:deliver,
+              serving:serving, phone:phone,
+              facebook:facebook, instagram:instagram,
+              whatsapp:whatsapp, email:email, 
+              web:web, city:city, district:district, 
+              street:street, avenue:avenue, 
+              postal_code:postal_code, opening_time:opening_time,
+              closing_time:closing_time, working_days:working_days});
+         
+               res.json({msg: "رستوران با موفقیت افزوده شد."})
+          } catch (error) {
+               console.log(error.message)
+          }
+     })
+
+}
+
 
 export const updateRestaurant = async (req, res) => {
   const restaurant = await Restaurant.findOne({

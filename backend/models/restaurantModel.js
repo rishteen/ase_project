@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
+import Category from "./categoryModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -8,6 +9,14 @@ const Restaurant = db.define("restaurant", {
     name: DataTypes.STRING,
     image: DataTypes.STRING,
     url: DataTypes.STRING,
+    category_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'Category', // This is a reference to another model
+            key: 'id', // This is the column name of the referenced model
+        },
+        allowNull: false
+    },
     latitude: DataTypes.DECIMAL(10, 8),
     longitude: DataTypes.DECIMAL(11, 8),
     phone: DataTypes.STRING,
@@ -27,6 +36,10 @@ const Restaurant = db.define("restaurant", {
     deliver: DataTypes.BOOLEAN,
     takeaway: DataTypes.BOOLEAN,
     serving: DataTypes.BOOLEAN,
+    views: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0, // Start with zero views
+    },
     // Remove category string definition
 }, {
     freezeTableName: true,

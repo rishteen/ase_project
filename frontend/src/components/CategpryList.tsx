@@ -75,7 +75,7 @@ const CategoryList = () => {
       onClose(); // Close the confirmation dialog
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while deleting the category.", {
+      toast.error("خطا در حذف کردن دسته بندی", {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
@@ -100,7 +100,7 @@ const CategoryList = () => {
 
   return (
     <>
-      <AddCategory />
+      <AddCategory refreshCategories={getCategories} />
       <TableContainer padding={20}>
         <Table size="sm">
           <Thead>

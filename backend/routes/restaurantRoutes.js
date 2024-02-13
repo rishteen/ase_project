@@ -1,6 +1,5 @@
 import express from "express";
-import { deleteRestaurant, getRestaurants, getRestaurant, saveRestaurant, updateRestaurant } from "../controller/restaurantController.js";
-import { addCategory } from "../controller/categoryController.js";
+import { deleteRestaurant, getRestaurants, getRestaurant, saveRestaurant, updateRestaurant, getRestaurantByCategory } from "../controller/restaurantController.js";
 
 const router = express.Router();
 
@@ -144,6 +143,7 @@ router.put("/restaurant/:id", updateRestaurant);
  *         description: Restaurant not found.
  */
 router.delete("/restaurant/:id", deleteRestaurant);
+router.get('/restaurants/category/:id', getRestaurantByCategory)
 
 
 export default router;

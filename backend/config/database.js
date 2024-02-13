@@ -12,4 +12,4 @@ export default db;
      async() =>{
      await db.sync();
    }
- )(); */
+ )();  */

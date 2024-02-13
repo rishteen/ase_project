@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from "react";
-import apiClient from "../services/api-client";
+// Assuming useCategory and useData are correctly implemented
+import { Category } from "./useCategory";
+import useData from "./useData";
 
 export interface Restaurant {
   id: number;
   name: string;
   image: string;
   url: string;
+  phone: string;
+  facebook: string;
+  instagram: string;
+  whatsapp: string;
+  email: string;
+  web: string;
+  category_id: number;
 }
 
-interface FetchRestaurantsResponse {
-  count: number;
-  result: Restaurant[];
-}
-
-const useRestaurants = () =>{
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const [error, setError] = useState("");
-  useEffect(() => {
-    const controller = new AbortController();
-    apiClient
-      .get<FetchRestaurantsResponse>("/restaurants",{signal:controller.signal})
-      .then((res) => setRestaurants(res.data))
-      .catch((err) => {
-        if(err instanceof CanceledError) return;
-        setError(err.message)});
-    return () => controller.abort();
-  },[]);
-  return {restaurants, error};
-}
+const useRestaurants = (selectedCategory: Category | null) => {
+  const endpoint = selectedCategory ? `/restaurants/category/${selectedCategory.id}` : '/restaurants';
+  return useData<Restaurant>(endpoint, {}, [selectedCategory?.id]);
+};
 
 export default useRestaurants;
