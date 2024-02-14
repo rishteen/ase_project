@@ -3,6 +3,7 @@ import { Card, CardBody, Heading, Image, HStack, Link } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { MdEmail, MdWeb, MdPhone } from "react-icons/md";
 import Views from "./Views";
+import Chat from "./Chat";
 
 interface Props {
   restaurant: Restaurant;
@@ -65,6 +66,9 @@ const RestaurantCard = ({ restaurant }: Props) => {
               <MdWeb size={20} />
             </Link>
           )}
+        </HStack>
+        <HStack>
+          <Chat />
         </HStack>
       </CardBody>
     </Card>
