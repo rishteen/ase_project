@@ -18,8 +18,9 @@ export interface Restaurant {
 }
 
 const useRestaurants = (restaurantQuery:RestaurantQuery) => {
-  const endpoint = restaurantQuery.category ? `/restaurants/category/${restaurantQuery.category.id}` : '/restaurants';
-  return useData<Restaurant>(endpoint, {}, [restaurantQuery.category?.id]);
+  const endpoint = restaurantQuery.category ? `/restaurants/category/${restaurantQuery.category.id}` :
+  restaurantQuery.searchText? `/restaurants/name/${restaurantQuery.searchText}`:'/restaurants';
+  return useData<Restaurant>(endpoint, {}, [restaurantQuery]);
 };
 
 export default useRestaurants;

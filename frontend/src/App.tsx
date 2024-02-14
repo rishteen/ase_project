@@ -13,6 +13,7 @@ import SortSelector from "./components/SortOrderSelector";
 
 export interface RestaurantQuery {
   category: Category | null;
+  searchText: string;
 }
 function App() {
   const [restaurantQuery, setRestaurantQuery] = useState<RestaurantQuery>(
@@ -31,7 +32,11 @@ function App() {
         }}
       >
         <GridItem area="nav">
-          <NavBar />
+          <NavBar
+            onSearch={(searchText) =>
+              setRestaurantQuery({ ...restaurantQuery, searchText })
+            }
+          />
         </GridItem>
         <Show above="lg">
           <GridItem area="aside" paddingX={3} paddingY={6}>

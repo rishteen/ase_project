@@ -1,3 +1,4 @@
+import { Op } from 'sequelize'; // Make sure to import Op from Sequelize
 import path from "path";
 import fs from "fs";
 import Restaurant from "../models/restaurantModel.js";
@@ -34,6 +35,32 @@ export const getRestaurantByCategory = async(req,res)=> {
           res.json(response)
      } catch (error) {
           res.json(error)
+     }
+}
+
+
+export const getRestaurantByName = async(req, res) => {
+     try {
+          const searchText = req.params.searchText;
+          const response = await Restaurant.findAll({
+               where:{
+                    [Op.or]:[
+                    {name: {
+                         [Op.like]: `%${searchText}%` // Use the LIKE operator for partial matches
+                    }},
+                    {city:{
+                         [Op.like]:`%${searchText}%`
+                    }}
+                    ]
+               }
+          });
+          if (response.length === 0) {
+               res.status().json({ message: "Restaurant not found" });
+          } else {
+               res.json(response);
+          }
+     } catch (error) {
+          res.status(500).json({ message: "Unable to retrieve restaurant data" });
      }
 }
 
