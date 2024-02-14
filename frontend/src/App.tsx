@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CategoryListAsSideMenu from "./components/CategoryListAsSideMenu";
 import { Category } from "./hooks/useCategory";
 import SortSelector from "./components/SortOrderSelector";
+import RestaurantHeading from "./components/RestaurantHeading";
 
 export interface RestaurantQuery {
   category: Category | null;
@@ -49,7 +50,9 @@ function App() {
           </GridItem>
         </Show>
         <GridItem area="main">
-          <HStack paddingRight={8} marginTop={1}></HStack>
+          <HStack paddingRight={8} marginTop={7}>
+            <RestaurantHeading restaurantQuery={restaurantQuery} />
+          </HStack>
           <Routes>
             <Route
               path="/"
