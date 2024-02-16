@@ -21,10 +21,10 @@ import { Link } from "react-router-dom";
 import apiClient from "../services/api-client";
 import AddCategory from "./AddCategory";
 import UpdateCategory from "./UpdateCategory";
-import { getCategory,deleteCategoryById } from "../hooks/api_v2/fetchCategory";
+
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-  const [categoryobjectIdToDelete, setCategoryobjectIdToDelete] = useState(null);
+  const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentCategory, setCurrentCategory] = useState(null);
   const {
@@ -39,10 +39,8 @@ const CategoryList = () => {
 
   const getCategories = async () => {
     try {
-      // const res = await apiClient.get("/categories");
-      // setCategories(res.data);
-      const res = await getCategory();
-      setCategories(res);
+      const res = await apiClient.get("/categories");
+      setCategories(res.data);
     } catch (error) {
       toast.error("Failed to fetch categories. Please try again later.", {
         position: "top-right",
@@ -62,8 +60,8 @@ const CategoryList = () => {
 
   const deleteCategory = async () => {
     try {
-      const res = await deleteCategoryById(categoryobjectIdToDelete);
-      toast.success(res, {
+      const res = await apiClient.delete(`/category/${categoryIdToDelete}`);
+      toast.success(res.data.msg, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
@@ -72,7 +70,7 @@ const CategoryList = () => {
         theme: "light",
       });
       setCategories(
-        categories.filter((category) => category.objectId !== categoryobjectIdToDelete)
+        categories.filter((category) => category.id !== categoryIdToDelete)
       );
       onClose(); // Close the confirmation dialog
     } catch (error) {
@@ -88,8 +86,8 @@ const CategoryList = () => {
     }
   };
 
-  const askDeleteCategory = (categoryobjectId) => {
-    setCategoryobjectIdToDelete(categoryobjectId);
+  const askDeleteCategory = (categoryId) => {
+    setCategoryIdToDelete(categoryId);
     onOpen();
   };
 
@@ -115,7 +113,7 @@ const CategoryList = () => {
           </Thead>
           <Tbody>
             {categories.map((category, index) => (
-              <Tr key={category.objectId}>
+              <Tr key={category.id}>
                 <Td>{index + 1}</Td> {/* Use index + 1 for row count */}
                 <Td>{category.name}</Td>
                 <Td>{category.description}</Td>
@@ -131,7 +129,7 @@ const CategoryList = () => {
                   <Button
                     colorScheme="red"
                     size="sm"
-                    onClick={() => askDeleteCategory(category.objectId)}
+                    onClick={() => askDeleteCategory(category.id)}
                   >
                     حذف
                   </Button>
