@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import apiClient from "../services/api-client";
+import { AddCategoryByData } from "../hooks/api_v2/fetchCategory";
 
 const AddCategory = ({ refreshCategories }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,11 +39,11 @@ const AddCategory = ({ refreshCategories }) => {
 
     setIsLoading(true);
     try {
-      const res = await apiClient.post("/category", {
+      const res = await AddCategoryByData({
         name,
         description,
       });
-      toast.success(res.data.msg, {
+      toast.success(res, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
