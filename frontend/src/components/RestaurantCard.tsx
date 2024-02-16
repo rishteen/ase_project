@@ -4,6 +4,7 @@ import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { MdEmail, MdWeb, MdPhone } from "react-icons/md";
 import Views from "./Views";
 import Chat from "./Chat";
+import RatingEmoji from "./RatingEmoji";
 
 interface Props {
   restaurant: Restaurant;
@@ -28,14 +29,12 @@ const RestaurantCard = ({ restaurant }: Props) => {
     <Card overflow="hidden">
       <Image src={restaurant.url} alt={restaurant.name} />
       <CardBody>
-        <Heading size="md" marginBottom={4}>
-          <HStack justifyContent="space-between">
-            <h1>{restaurant.name}</h1>
-            <Views views={restaurant.id} />
-          </HStack>
-        </Heading>
-
-        <HStack spacing={10} wrap="wrap" justify="space-between">
+        <HStack
+          spacing={10}
+          wrap="wrap"
+          justify="space-between"
+          marginBottom={3}
+        >
           {restaurant.phone && (
             <Link href={phoneUrl} isExternal aria-label="Phone">
               <MdPhone size={20} />
@@ -67,6 +66,17 @@ const RestaurantCard = ({ restaurant }: Props) => {
             </Link>
           )}
         </HStack>
+        <Heading size="md">
+          <HStack justify="space-between">
+            <h1 style={{ display: "flex", alignItems: "center" }}>
+              {" "}
+              {/* Use flex display */}
+              {restaurant.name}
+              <RatingEmoji rating={restaurant.views_rate} />
+            </h1>
+            <Views views={restaurant.id} />
+          </HStack>
+        </Heading>
         <HStack>
           <Chat />
         </HStack>

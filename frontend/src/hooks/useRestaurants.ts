@@ -15,6 +15,7 @@ export interface Restaurant {
   email: string;
   web: string;
   category_id: number;
+  views_rate:number;
 }
 
 const useRestaurants = (restaurantQuery:RestaurantQuery) => {

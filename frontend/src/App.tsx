@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
@@ -15,6 +15,7 @@ import RestaurantHeading from "./components/RestaurantHeading";
 export interface RestaurantQuery {
   category: Category | null;
   searchText: string;
+  sortOrder: string;
 }
 function App() {
   const [restaurantQuery, setRestaurantQuery] = useState<RestaurantQuery>(
@@ -52,6 +53,12 @@ function App() {
         <GridItem area="main">
           <HStack paddingRight={8} marginTop={7}>
             <RestaurantHeading restaurantQuery={restaurantQuery} />
+            <SortSelector
+              sortOrder={restaurantQuery.sortOrder}
+              onSelectSortOrder={(sortOrder) =>
+                setRestaurantQuery({ ...restaurantQuery, sortOrder })
+              }
+            />
           </HStack>
           <Routes>
             <Route
