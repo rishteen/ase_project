@@ -26,7 +26,9 @@ const RestaurantCard = ({ restaurant }: Props) => {
   const webUrl = restaurant.web ? restaurant.web : ""; // Assuming web is already a complete URL
 
   return (
-    <Card overflow="hidden">
+    <Card
+      overflow="hidden"
+    >
       <Image src={restaurant.url} alt={restaurant.name} />
       <CardBody>
         <HStack
@@ -71,7 +73,9 @@ const RestaurantCard = ({ restaurant }: Props) => {
             <h1 style={{ display: "flex", alignItems: "center" }}>
               {" "}
               {/* Use flex display */}
-              {restaurant.name}
+              <Link href={"/restaurant/" + restaurant.id}>
+                {restaurant.name}
+              </Link>
               <RatingEmoji rating={restaurant.views_rate} />
             </h1>
             <Views views={restaurant.id} />

@@ -11,6 +11,7 @@ import CategoryListAsSideMenu from "./components/CategoryListAsSideMenu";
 import { Category } from "./hooks/useCategory";
 import SortSelector from "./components/SortOrderSelector";
 import RestaurantHeading from "./components/RestaurantHeading";
+import RestaurantDetailsPage from "./components/RestaurantDetailsPage";
 
 export interface RestaurantQuery {
   category: Category | null;
@@ -67,6 +68,7 @@ function App() {
             />
             <Route path="/addrestaurant" element={<AddRestaurant />} />
             <Route path="/categories" element={<CategpryList />} />
+            <Route path="/restaurant/:id" element={<RestaurantDetailsPage />} />
             {/* Add more routes as needed */}
           </Routes>
         </GridItem>
