@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import apiClient from "../services/api-client";
-import { AddCategoryByData } from "../hooks/api_v2/fetchCategory";
 
 const AddCategory = ({ refreshCategories }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,11 +38,11 @@ const AddCategory = ({ refreshCategories }) => {
 
     setIsLoading(true);
     try {
-      const res = await AddCategoryByData({
+      const res = await apiClient.post("/category", {
         name,
         description,
       });
-      toast.success(res, {
+      toast.success(res.data.msg, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
@@ -75,7 +74,12 @@ const AddCategory = ({ refreshCategories }) => {
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="teal" marginTop={10} marginRight={20}>
+      <Button
+        onClick={onOpen}
+        colorScheme="teal"
+        marginTop={10}
+        marginRight={20}
+      >
         اضافه کردن دسته بندی جدید
       </Button>
 
