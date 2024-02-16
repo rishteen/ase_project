@@ -11,10 +11,10 @@ interface Props {
 const RestaurantGrid = ({ restaurantQuery }: Props) => {
   const { data, error, isLoading } = useRestaurants(restaurantQuery);
   const skeleton = [1, 2, 3, 4, 5, 6];
+  if (error) return <Text>{error}</Text>;
 
   return (
     <>
-      {error && <Text>{error}</Text>}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
         spacing={1}
