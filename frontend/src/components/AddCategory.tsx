@@ -74,7 +74,7 @@ const AddCategory = ({ refreshCategories }) => {
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="teal">
+      <Button onClick={onOpen} colorScheme="teal" marginTop={10} marginRight={20}>
         اضافه کردن دسته بندی جدید
       </Button>
 

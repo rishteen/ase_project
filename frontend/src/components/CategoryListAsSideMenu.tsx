@@ -16,7 +16,7 @@ const CategoryListAsSideMenu = ({
 
   return (
     <List spacing={2}>
-      {data.map((category) => (
+      {data?.map((category) => (
         <ListItem key={category.id} paddingY="2">
           {/* Use a Flex container to center the button if needed */}
           <Button
