@@ -3,6 +3,7 @@ import { Card, CardBody, Heading, Image, HStack, Link } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { MdEmail, MdWeb, MdPhone } from "react-icons/md";
 import Views from "./Views";
+import { genRandomNumber } from "../hooks/utils";
 
 interface Props {
   restaurant: Restaurant;
@@ -22,15 +23,15 @@ const RestaurantCard = ({ restaurant }: Props) => {
   const emailUrl = restaurant.email ? `mailto:${restaurant.email}` : "";
   const phoneUrl = restaurant.phone ? `tel:${restaurant.phone}` : "";
   const webUrl = restaurant.web ? restaurant.web : ""; // Assuming web is already a complete URL
-
+  
   return (
     <Card overflow="hidden">
       <Image src={restaurant.url} alt={restaurant.name} />
       <CardBody>
         <Heading size="md" marginBottom={4}>
           <HStack justifyContent="space-between">
-            <h1>{restaurant.name}</h1>
-            <Views views={restaurant.id} />
+            <h1>{`رستوران ${restaurant.name}`}</h1>
+            <Views views={restaurant.objectId} />
           </HStack>
         </Heading>
 

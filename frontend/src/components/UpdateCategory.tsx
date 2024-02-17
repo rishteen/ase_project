@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import apiClient from "../services/api-client";
+import { UpdateCategoryById } from "../hooks/api_v2/fetchCategory";
 
 const UpdateCategory = ({ isOpen, onClose, category, refreshCategories }) => {
   const [name, setName] = useState("");
@@ -30,11 +31,11 @@ const UpdateCategory = ({ isOpen, onClose, category, refreshCategories }) => {
   const handleUpdateCategory = async () => {
     setIsSubmitting(true);
     try {
-      const response = await apiClient.put(`/category/${category.id}`, {
+      const response = await UpdateCategoryById(category.objectId, {
         name,
         description,
       });
-      toast.success(response.data.msg, {
+      toast.success(response, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,

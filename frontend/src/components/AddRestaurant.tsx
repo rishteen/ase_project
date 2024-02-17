@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { MdEmail, MdWeb, MdPhone } from "react-icons/md"; // Example: Assuming you're using Material Design icons for some
 import { toast } from "react-toastify";
@@ -30,6 +30,10 @@ import {
 import L from "leaflet";
 import apiClient from "../services/api-client";
 import "leaflet/dist/leaflet.css"; // Ensure you have this CSS import for Leaflet's styles
+import {
+  AddRestaurantByData,
+  getCategory,
+} from "../hooks/api_v2/fetchCategory";
 
 const AddRestaurant = () => {
   const [title, setTitle] = useState("");
@@ -99,8 +103,8 @@ const AddRestaurant = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await apiClient.get("/categories"); // Adjust the endpoint as needed
-        setCategories(response.data);
+        const response = await getCategory();
+        setCategories(response);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
         toast.error("Failed to load categories.", {
@@ -132,38 +136,69 @@ const AddRestaurant = () => {
 
   const saveRestaurant = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("title", title);
-    formData.append("latitude", location.lat);
-    formData.append("longitude", location.lng);
-    formData.append("deliver", deliver);
-    formData.append("takeaway", takeaway);
-    formData.append("serving", serving);
-    formData.append("phone", phone);
-    formData.append("facebook", facebook);
-    formData.append("instagram", instagram);
-    formData.append("whatsapp", whatsapp);
-    formData.append("email", email);
-    formData.append("web", web);
-    formData.append("city", city);
-    formData.append("district", district);
-    formData.append("street", street);
-    formData.append("avenue", avenue);
-    formData.append("postal_code", postal_code);
-    formData.append("opening_time", opening_time);
-    formData.append("closing_time", closing_time);
-    formData.append("working_days", working_days.join(","));
-    formData.append("category_id", selectedCategory);
-
+    // const formData = new FormData();
+    // formData.append("file", file);
+    // formData.append("title", title);
+    // formData.append("latitude", location.lat);
+    // formData.append("longitude", location.lng);
+    // formData.append("deliver", deliver);
+    // formData.append("takeaway", takeaway);
+    // formData.append("serving", serving);
+    // formData.append("phone", phone);
+    // formData.append("facebook", facebook);
+    // formData.append("instagram", instagram);
+    // formData.append("whatsapp", whatsapp);
+    // formData.append("email", email);
+    // formData.append("web", web);
+    // formData.append("city", city);
+    // formData.append("district", district);
+    // formData.append("street", street);
+    // formData.append("avenue", avenue);
+    // formData.append("postal_code", postal_code);
+    // formData.append("opening_time", opening_time);
+    // formData.append("closing_time", closing_time);
+    // formData.append("working_days", working_days.join(","));
+    // formData.append("category_id", selectedCategory);
+    const data = {
+      file: file,
+      title: title,
+      latitude: location.lat,
+      longitude: location.lng,
+      deliver: deliver,
+      takeaway: takeaway,
+      serving: serving,
+      phone: phone,
+      facebook: facebook,
+      instagram: instagram,
+      whatsapp: whatsapp,
+      email: email,
+      web: web,
+      city: city,
+      district: district,
+      street: street,
+      avenue: avenue,
+      postal_code: postal_code,
+      opening_time: opening_time,
+      closing_time: closing_time,
+      working_days: working_days.join(","),
+      category_id: {
+        objectId: selectedCategory,
+        __type: "Pointer",
+        className: "Category",
+      },
+    };
+    console.log(`add resta form data ${JSON.stringify(data)}`);
     try {
-      const res = await apiClient.post("/restaurant", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await AddRestaurantByData(data);
+      // const res = await apiClient.post("/restaurant", formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
+
+      // TODO:uncomment this
       navigate("/");
-      toast.success(res.data.msg, {
+      toast.success(res, {
         position: "top-right",
         autoClose: 5000,
         closeOnClick: true,
@@ -216,7 +251,7 @@ const AddRestaurant = () => {
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
                   {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
+                    <option key={category.objectId} value={category.objectId}>
                       {category.name}
                     </option>
                   ))}
@@ -352,7 +387,10 @@ const AddRestaurant = () => {
                   id="street"
                   type="text"
                   value={street}
-                  onChange={(e) => setStreet(e.target.value)}
+                  onChange={(e) => {
+                    setStreet(e.target.value);
+                    console.log(street);
+                  }}
                 />
               </FormControl>
 
@@ -463,7 +501,7 @@ const AddRestaurant = () => {
                   <Input
                     id="web"
                     type="url"
-                    placeholder="ویب سایت"
+                    placeholder="وب سایت"
                     value={web}
                     onChange={(e) => setWeb(e.target.value)}
                   />

@@ -9,7 +9,7 @@ const SearchInput = () => {
         <InputLeftElement children={<BsSearch />} />
         <Input
           borderRadius={20}
-          placeholder="جست وجو رستوارن..."
+          placeholder="جست وجو رستوران..."
           variant="filled"
         />
       </InputGroup>
