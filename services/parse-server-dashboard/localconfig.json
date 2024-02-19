@@ -1,0 +1,12 @@
+{
+    "apps": [
+      {
+        "serverURL": "https://parse-server.liara.run/parse",
+        "appId": "webquality",
+        "masterKey": "alistrongmasterkeyraee",
+        "appName": "webquality",
+        "masterKeyIPs": ["0.0.0.0/0", "::/0"]
+      }
+    ]
+  }
+  

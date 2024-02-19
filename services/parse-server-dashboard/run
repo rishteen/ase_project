@@ -1,0 +1,1 @@
+parse-dashboard --dev --appId webquality --masterKey "ps7maKnW8Wk&HYS" --serverURL "https://parser.liara.run" --appName WebQuality --port 3000
